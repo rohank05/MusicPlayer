@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'me.rohank05'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://m2.dv8tion.net/releases' }
+    jcenter()
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation group: 'com.github.walkyst', name: 'lavaplayer-fork', version: '1.3.97'
+    implementation group: 'com.github.natanbc', name: 'lavadsp', version: '0.7.7'
+    implementation group: 'me.rohank05', name: 'lavadsp-extended', version: '0.0.2'
+}
+
+test {
+    useJUnitPlatform()
+}
