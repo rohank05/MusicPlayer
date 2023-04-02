@@ -100,33 +100,24 @@ public class MusicManager extends AudioEventAdapter {
         System.out.println("4. Skip");
         System.out.println("5. Stop");
         System.out.println("6. Add Filters");
+        System.out.println("7. Exit");
         int choice = sc.nextInt();
         goToChoice(choice);
     }
 
     public void goToChoice(int choice) {
         switch (choice) {
-            case 1:
-                loadAndPlay();
-                break;
-            case 2:
-                pause();
-                break;
-            case 3:
-                resume();
-                break;
-            case 4:
-                skip();
-                break;
-            case 5:
-                stop();
-                break;
-            case 6:
-                filter();
-                break;
-            default:
+            case 1 -> loadAndPlay();
+            case 2 -> pause();
+            case 3 -> resume();
+            case 4 -> skip();
+            case 5 -> stop();
+            case 6 -> filter();
+            case 7 -> System.exit(0);
+            default -> {
                 System.out.println("Wrong choice");
                 giveChoice();
+            }
         }
 
     }
@@ -159,7 +150,9 @@ public class MusicManager extends AudioEventAdapter {
         System.out.println("4. Vibrato " + enabled);
         enabled = audioFilter.isEcho() ? "(Enabled)" : "(Disabled)";
         System.out.println("5. Echo " + enabled);
-        System.out.println("6. Go back to main menu");
+        enabled = audioFilter.isReverb() ? "(Enabled)" : "(Disabled)";
+        System.out.println("6. Reverb " + enabled);
+        System.out.println("7. Go back to main menu");
 
         int choice = sc.nextInt();
 
@@ -190,6 +183,11 @@ public class MusicManager extends AudioEventAdapter {
                 filter();
                 break;
             case 6:
+                audioFilter.setReverb(!audioFilter.isReverb());
+                audioFilter.updateFilter();
+                filter();
+                break;
+            case 7:
                 giveChoice();
                 break;
             default:

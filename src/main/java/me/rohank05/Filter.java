@@ -11,6 +11,7 @@ import com.sedmelluq.discord.lavaplayer.format.AudioDataFormat;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.rohank05.echo.EchoPcmAudioFilter;
+import me.rohank05.reverb.ReverberationPcmAudioFilter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +24,8 @@ public class Filter {
     private boolean tremolo = false;
     private boolean vibrato = false;
     private boolean echo = false;
+
+    private boolean reverb = false;
 
     public Filter(AudioPlayer audioPlayer){
         this.audioPlayer = audioPlayer;
@@ -68,16 +71,25 @@ public class Filter {
         this.vibrato = vibrato;
     }
 
+    public boolean isReverb(){
+        return reverb;
+    }
+
+    public void setReverb(boolean reverb){
+        this.reverb = reverb;
+    }
+
     public void resetFilter(){
         setEcho(false);
         setNightcore(false);
         setTremolo(false);
         setEightD(false);
         setVibrato(false);
+        setReverb(false);
     }
 
     private boolean filterEnabled(){
-        return this.nightcore || this.eightD || this.tremolo ||this.vibrato || this.echo;
+        return this.nightcore || this.eightD || this.tremolo ||this.vibrato || this.echo || this.reverb;
     }
 
     public void updateFilter(){
@@ -116,9 +128,15 @@ public class Filter {
         }
         if(this.echo){
             EchoPcmAudioFilter echoPcmAudioFilter = new EchoPcmAudioFilter(filter, audioDataFormat.channelCount, audioDataFormat.sampleRate);
-            echoPcmAudioFilter.setDelay(1).setDecay(0.5f);
+            echoPcmAudioFilter.setDelay(0).setDecay(0.5f);
+            filter = echoPcmAudioFilter;
             filterList.add(echoPcmAudioFilter);
         }
+        if(this.reverb){
+            ReverberationPcmAudioFilter reverbPcmAudioFilter = new ReverberationPcmAudioFilter(filter, audioDataFormat.channelCount, audioDataFormat.sampleRate);
+            filterList.add(reverbPcmAudioFilter);
+        }
+
         Collections.reverse(filterList);
         return filterList;
     }
