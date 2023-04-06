@@ -1,6 +1,5 @@
 package me.rohank05;
 
-import com.github.natanbc.lavadsp.timescale.TimescalePcmAudioFilter;
 import com.sedmelluq.discord.lavaplayer.format.AudioDataFormat;
 import com.sedmelluq.discord.lavaplayer.format.AudioPlayerInputStream;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
@@ -107,17 +106,31 @@ public class MusicManager extends AudioEventAdapter {
 
     public void goToChoice(int choice) {
         switch (choice) {
-            case 1 -> loadAndPlay();
-            case 2 -> pause();
-            case 3 -> resume();
-            case 4 -> skip();
-            case 5 -> stop();
-            case 6 -> filter();
-            case 7 -> System.exit(0);
-            default -> {
+            case 1:
+                loadAndPlay();
+                break;
+            case 2: 
+                pause();
+                break;
+            case 3:
+                resume();
+                break;
+            case 4:
+                skip();
+                break;
+            case 5:
+                stop();
+                break;
+            case 6:
+                filter();
+                break;
+            case 7:
+                System.exit(0);
+                break;
+            default:
                 System.out.println("Wrong choice");
                 giveChoice();
-            }
+
         }
 
     }
