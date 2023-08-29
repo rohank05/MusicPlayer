@@ -32,6 +32,7 @@ public class MusicManager extends AudioEventAdapter {
 
     public Filter audioFilter;
 
+    private boolean isLoopEnabled = false;
     AudioInputStream audioInputStream;
 
     public MusicManager() {
@@ -99,6 +100,7 @@ public class MusicManager extends AudioEventAdapter {
         System.out.println("4. Skip");
         System.out.println("5. Stop");
         System.out.println("6. Add Filters");
+        System.out.println("7. Loop");
         System.out.println("7. Exit");
         int choice = sc.nextInt();
         goToChoice(choice);
@@ -125,8 +127,10 @@ public class MusicManager extends AudioEventAdapter {
                 filter();
                 break;
             case 7:
-                System.exit(0);
+                loop();
                 break;
+            case 8:
+                System.exit(0);
             default:
                 System.out.println("Wrong choice");
                 giveChoice();
@@ -147,10 +151,14 @@ public class MusicManager extends AudioEventAdapter {
 
     public void resume() {
         audioPlayer.setPaused(false);
-
         giveChoice();
     }
 
+    public void loop() {
+        this.isLoopEnabled = true;
+        System.out.println(isLoopEnabled ? "Looping the Queue" : "Stop Looping the Queue");
+        giveChoice();
+    }
     public void filter() {
         System.out.println("Choose the Filter you want to enable or disable");
         String enabled = audioFilter.isNightcore() ? "(Enabled)" : "(Disabled)";
@@ -264,6 +272,9 @@ public class MusicManager extends AudioEventAdapter {
 
     public void playNextTrack() {
         audioPlayer.startTrack(this.queue.firstElement(), true);
+        if(this.isLoopEnabled){
+            this.queue.push(this.queue.firstElement());
+        }
         this.queue.remove(0);
     }
 
